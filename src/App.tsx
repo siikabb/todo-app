@@ -1,11 +1,12 @@
-import "./App.css";
+import './App.css';
+import Tasks from './views/Tasks';
 
-function App() {
+const App = () => {
   return (
     <main className="container">
-      <p>content</p>
+      <Tasks />
     </main>
   );
-}
+};
 
 export default App;
