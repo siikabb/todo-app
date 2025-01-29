@@ -1,11 +1,22 @@
-import { Task } from '../types/taskTypes';
+import { Task, TaskItemProps } from '../types/taskTypes';
 
-const TaskItem = (task: Task) => {
+const TaskItem = ({ task, toggleComplete }: TaskItemProps) => {
   return (
     <>
       <li>
-        <input type="checkbox" checked={task.completed} />
-        <p>{task.text}</p>
+        <input
+          type="checkbox"
+          checked={task.completed}
+          onChange={() => toggleComplete(task.id)}
+        />
+        <span
+          style={{
+            textDecoration: task.completed ? 'line-through' : 'none',
+            marginLeft: '8px',
+          }}
+        >
+          {task.text}
+        </span>
       </li>
     </>
   );
