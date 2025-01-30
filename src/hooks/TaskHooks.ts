@@ -16,9 +16,14 @@ const useTasks = () => {
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
+    console.log(tasks);
   };
 
-  return { tasks, newTask, setNewTask, addTask, toggleComplete };
+  const deleteTask = (id: number) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  return { tasks, newTask, setNewTask, addTask, toggleComplete, deleteTask };
 };
 
 export { useTasks };

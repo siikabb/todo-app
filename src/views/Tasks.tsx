@@ -2,17 +2,19 @@ import TaskItem from '../components/TaskItem';
 import { useTasks } from '../hooks/TaskHooks';
 
 const Tasks = () => {
-  const { tasks, newTask, setNewTask, addTask, toggleComplete } = useTasks();
+  const { tasks, newTask, setNewTask, addTask, toggleComplete, deleteTask } =
+    useTasks();
 
   return (
     <div className="flex flex-col w-screen h-screen dark:bg-gray-900">
-      <div className="flex">
+      <div className="flex flex-col w-full">
         <ul>
           {tasks.map((task, index) => (
             <TaskItem
               key={task.id}
               task={task}
               toggleComplete={toggleComplete}
+              deleteTask={deleteTask}
               index={index}
             />
           ))}
