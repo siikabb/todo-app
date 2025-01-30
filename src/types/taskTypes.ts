@@ -9,6 +9,7 @@ type Task = {
 type TaskItemProps = {
   task: Task;
   toggleComplete: (id: number) => void;
+  index: number;
 };
 
 export type { Task, TaskItemProps };

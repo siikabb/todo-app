@@ -6,13 +6,14 @@ const Tasks = () => {
 
   return (
     <div className="flex flex-col w-screen h-screen dark:bg-gray-900">
-      <div className="flex p-4">
+      <div className="flex">
         <ul>
-          {tasks.map((task) => (
+          {tasks.map((task, index) => (
             <TaskItem
               key={task.id}
               task={task}
               toggleComplete={toggleComplete}
+              index={index}
             />
           ))}
         </ul>
