@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { useTasks } from '../hooks/TaskHooks';
 import { TaskItemProps } from '../types/taskTypes';
 
 const TaskItem = ({
@@ -8,8 +6,6 @@ const TaskItem = ({
   toggleComplete,
   deleteTask,
 }: TaskItemProps) => {
-  // const { toggleComplete, deleteTask } = useTasks();
-
   return (
     <>
       <li

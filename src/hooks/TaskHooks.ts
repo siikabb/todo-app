@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { Task } from '../types/taskTypes';
 
-const useTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTask, setNewTask] = useState('');
+const useTasks = (initialTasks: Task[]) => {
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
-  const addTask = () => {
-    setTasks([...tasks, { id: Date.now(), text: newTask, completed: false }]);
-    setNewTask;
+  const addTask = (task: Task) => {
+    setTasks([...tasks, task]);
   };
 
   const toggleComplete = (id: number) => {
@@ -23,7 +21,7 @@ const useTasks = () => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  return { tasks, newTask, setNewTask, addTask, toggleComplete, deleteTask };
+  return { tasks, addTask, toggleComplete, deleteTask };
 };
 
 export { useTasks };
