@@ -10,6 +10,7 @@ type TaskItemProps = {
   toggleComplete: (id: number) => void;
   index: number;
   deleteTask: (id: number) => void;
+  editTask?: (id: number, text: string) => void;
 };
 
 export type { Task, TaskItemProps };

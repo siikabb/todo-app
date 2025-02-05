@@ -1,16 +1,26 @@
 import { useState } from 'react';
 import TaskItem from '../components/TaskItem';
 import { useTasks } from '../hooks/TaskHooks';
+import { useTaskStore } from '../stores/TaskStore';
+import EditModal from '../components/EditModal';
 
 const Tasks = () => {
-  const { tasks, addTask, toggleComplete, deleteTask } = useTasks([]);
+  // const { tasks, addTask, toggleComplete, deleteTask, editTask } = useTasks([]);
+  const { tasks, addTask, toggleComplete, deleteTask, editTask } =
+    useTaskStore();
 
   const [taskText, setTaskText] = useState('');
 
   const handleAddTask = () => {
     if (!taskText.trim()) return;
-    addTask({ id: Date.now(), text: taskText, completed: false });
+    addTask(taskText);
     setTaskText('');
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleAddTask();
+    }
   };
 
   return (
@@ -22,6 +32,7 @@ const Tasks = () => {
               key={task.id}
               task={task}
               toggleComplete={toggleComplete}
+              editTask={editTask}
               deleteTask={deleteTask}
               index={index}
             />
@@ -35,6 +46,7 @@ const Tasks = () => {
           onChange={(e) => setTaskText(e.target.value)}
           placeholder="Add a new task"
           className="w-full dark:bg-gray-700 p-2 rounded"
+          onKeyDown={handleKeyDown}
         />
         <button
           onClick={handleAddTask}

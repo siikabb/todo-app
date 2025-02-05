@@ -21,7 +21,11 @@ const useTasks = (initialTasks: Task[]) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  return { tasks, addTask, toggleComplete, deleteTask };
+  const editTask = (id: number, text: string) => {
+    setTasks(tasks.map((task) => (task.id === id ? { ...task, text } : task)));
+  };
+
+  return { tasks, addTask, toggleComplete, deleteTask, editTask };
 };
 
 export { useTasks };
