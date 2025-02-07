@@ -3,15 +3,16 @@ import { Task } from '../types/taskTypes';
 
 type TaskStore = {
   tasks: Task[];
-  addTask: (text: string) => void;
-  toggleComplete: (id: number) => void;
-  deleteTask: (id: number) => void;
-  editTask: (id: number, text: string) => void;
+  addTask: (text: string, parentId?: number) => void;
+  toggleComplete: (id: number, parentId?: number) => void;
+  deleteTask: (id: number, parentId?: number) => void;
+  editTask: (id: number, text: string, parentId?: number) => void;
+  addSubtask: (subtask: Task) => void;
   editedTask: Task | null;
   isEditing: boolean;
 };
 
-export const useTaskStore = create<TaskStore>((set, get) => ({
+export const useTaskStore = create<TaskStore>((set) => ({
   tasks: [],
   addTask: (text: string) => {
     const newTask: Task = {
@@ -38,6 +39,11 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
       tasks: state.tasks.map((task) =>
         task.id === id ? { ...task, text } : task
       ),
+    }));
+  },
+  addSubtask: (subtask: Task) => {
+    set((state) => ({
+      tasks: [...state.tasks, subtask],
     }));
   },
   editedTask: null,

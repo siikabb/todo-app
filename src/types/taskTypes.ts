@@ -3,6 +3,7 @@ type Task = {
   text: string;
   completed: boolean;
   tags?: string[];
+  parentId?: number;
 };
 
 type TaskItemProps = {

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { TaskItemProps } from '../types/taskTypes';
-import EditModal from './EditModal';
 import { useTaskStore } from '../stores/TaskStore';
 
 const TaskItem = ({
@@ -11,7 +10,7 @@ const TaskItem = ({
 }: TaskItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const { editTask } = useTaskStore();
+  const { editTask, addSubtask, tasks } = useTaskStore();
 
   const handleEditTask = () => {
     setIsEditing(true);
@@ -42,6 +41,22 @@ const TaskItem = ({
           >
             {task.text}
           </span>
+          <button
+            onClick={(e) => {
+              //implement subtask logic here
+              console.log('subtask');
+              e.preventDefault();
+              addSubtask({
+                id: Date.now(),
+                text: '',
+                completed: false,
+                parentId: task.id,
+              });
+            }}
+            className="flex text-white rounded cursor-pointer size-6 items-center justify-center m-auto mr-2 bg-green-500"
+          >
+            +
+          </button>
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -75,6 +90,22 @@ const TaskItem = ({
           }}
         />
       </li>
+      <ul className="flex flex-col w-full pl-4">
+        {
+          // map all tasks with parentId equal to current task's id
+          tasks
+            .filter((t) => t.parentId === task.id)
+            .map((subtask, index) => (
+              <TaskItem
+                key={subtask.id}
+                task={subtask}
+                index={index}
+                toggleComplete={toggleComplete}
+                deleteTask={deleteTask}
+              />
+            ))
+        }
+      </ul>
     </>
   );
 };

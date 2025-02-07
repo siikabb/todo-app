@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import TaskItem from '../components/TaskItem';
-import { useTasks } from '../hooks/TaskHooks';
 import { useTaskStore } from '../stores/TaskStore';
-import EditModal from '../components/EditModal';
 
 const Tasks = () => {
   // const { tasks, addTask, toggleComplete, deleteTask, editTask } = useTasks([]);
@@ -27,16 +25,20 @@ const Tasks = () => {
     <div className="flex flex-col w-screen h-screen dark:bg-gray-900">
       <div className="flex flex-col w-full">
         <ul>
-          {tasks.map((task, index) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              toggleComplete={toggleComplete}
-              editTask={editTask}
-              deleteTask={deleteTask}
-              index={index}
-            />
-          ))}
+          {tasks.map(
+            (task, index) =>
+              // don't display subtasks in main list
+              !task.parentId && (
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  index={index}
+                  toggleComplete={toggleComplete}
+                  deleteTask={deleteTask}
+                  editTask={editTask}
+                />
+              )
+          )}
         </ul>
       </div>
       <div className="flex w-full p-4 justify-center fixed bottom-0 dark:bg-gray-800">
