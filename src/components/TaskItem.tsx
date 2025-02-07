@@ -9,11 +9,24 @@ const TaskItem = ({
   deleteTask,
 }: TaskItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isAddingSubtask, setIsAddingSubtask] = useState(false);
+  const [subtaskText, setSubtaskText] = useState('');
 
   const { editTask, addSubtask, tasks } = useTaskStore();
 
   const handleEditTask = () => {
     setIsEditing(true);
+  };
+
+  const handleAddSubtask = () => {
+    addSubtask({
+      id: Date.now(),
+      text: subtaskText,
+      completed: false,
+      parentId: task.id,
+    });
+    setIsAddingSubtask(false);
+    setSubtaskText('');
   };
 
   return (
@@ -43,15 +56,8 @@ const TaskItem = ({
           </span>
           <button
             onClick={(e) => {
-              //implement subtask logic here
-              console.log('subtask');
               e.preventDefault();
-              addSubtask({
-                id: Date.now(),
-                text: '',
-                completed: false,
-                parentId: task.id,
-              });
+              setIsAddingSubtask(true);
             }}
             className="flex text-white rounded cursor-pointer size-6 items-center justify-center m-auto mr-2 bg-green-500"
           >
@@ -90,6 +96,27 @@ const TaskItem = ({
           }}
         />
       </li>
+      <div className={`flex w-full${isAddingSubtask ? ' block' : ' hidden'}`}>
+        <input
+          type="text"
+          className="w-full p-2"
+          onChange={(e) => setSubtaskText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleAddSubtask();
+            }
+          }}
+        />
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            handleAddSubtask();
+          }}
+          className="flex text-white rounded cursor-pointer size-6 items-center justify-center m-auto mr-2 bg-green-500"
+        >
+          ✓
+        </button>
+      </div>
       <ul className="flex flex-col w-full pl-4">
         {
           // map all tasks with parentId equal to current task's id
