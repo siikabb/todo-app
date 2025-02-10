@@ -12,10 +12,22 @@ const TaskItem = ({
   const [isAddingSubtask, setIsAddingSubtask] = useState(false);
   const [subtaskText, setSubtaskText] = useState('');
 
-  const { editTask, addSubtask, tasks } = useTaskStore();
+  const { editTask, addSubtask, tasks, reOrderTask } = useTaskStore();
 
   const handleEditTask = () => {
     setIsEditing(true);
+  };
+
+  const handleMoveTask = (direction: 'up' | 'down') => {
+    const currentIndex = tasks.findIndex((t) => t.id === task.id);
+    if (
+      (direction === 'up' && currentIndex === 0) ||
+      (direction === 'down' && currentIndex === tasks.length - 1)
+    ) {
+      return;
+    }
+    const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+    reOrderTask(task.id, newIndex);
   };
 
   const handleAddSubtask = () => {
@@ -38,6 +50,26 @@ const TaskItem = ({
             : 'bg-gray-200 dark:bg-gray-800'
         } flex w-full`}
       >
+        <div className="flex flex-col ml-2">
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              handleMoveTask('up');
+            }}
+            className="flex text-gray-500 cursor-pointer hover:text-gray-200"
+          >
+            ▲
+          </div>
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              handleMoveTask('down');
+            }}
+            className="flex text-gray-500 cursor-pointer hover:text-gray-200"
+          >
+            ▼
+          </div>
+        </div>
         <span className={`flex w-full${isEditing ? ' hidden' : ''}`}>
           <input
             type="checkbox"

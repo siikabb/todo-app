@@ -8,6 +8,7 @@ type TaskStore = {
   deleteTask: (id: number, parentId?: number) => void;
   editTask: (id: number, text: string, parentId?: number) => void;
   addSubtask: (subtask: Task) => void;
+  reOrderTask: (id: number, newIndex: number) => void;
   editedTask: Task | null;
   isEditing: boolean;
 };
@@ -45,6 +46,15 @@ export const useTaskStore = create<TaskStore>((set) => ({
     set((state) => ({
       tasks: [...state.tasks, subtask],
     }));
+  },
+  reOrderTask: (id: number, newIndex: number) => {
+    set((state) => {
+      const task = state.tasks.find((task) => task.id === id);
+      if (!task) return state;
+      const tasks = state.tasks.filter((task) => task.id !== id);
+      tasks.splice(newIndex, 0, task);
+      return { tasks };
+    });
   },
   editedTask: null,
   isEditing: false,
