@@ -23,7 +23,7 @@ const Tasks = () => {
 
   return (
     <div className="flex flex-col w-screen h-screen dark:bg-gray-900">
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full overflow-auto flex-1">
         <ul>
           {tasks.map(
             (task, index) =>
@@ -41,7 +41,7 @@ const Tasks = () => {
           )}
         </ul>
       </div>
-      <div className="flex w-full p-4 justify-center fixed bottom-0 dark:bg-gray-800">
+      <div className="flex w-full p-4 justify-center bottom-0 dark:bg-gray-800 border-t border-gray-700">
         <input
           type="text"
           value={taskText}
